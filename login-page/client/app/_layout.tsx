@@ -60,6 +60,7 @@ function RootLayoutNav() {
           <Stack.Screen name='index' />
           <Stack.Screen name='(routes)/login/index'/>
           <Stack.Screen name='(routes)/signUp/index'/>
+          <Stack.Screen name='(routes)/signUpTwo/index'/>
         </Stack>
       )
     }

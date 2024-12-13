@@ -1,8 +1,7 @@
 import { ScrollView, StyleSheet, Text, View,Image, SafeAreaView, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
-import { AntDesign, Entypo,Ionicons } from "@expo/vector-icons";
+import { Entypo,Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import CheckBox from "@/components/Checkbox";
 import { GradientText } from "@/components/GradientText";
 import { Dropdown } from 'react-native-element-dropdown';
 
@@ -39,6 +38,7 @@ export default function SignUpscreen() {
 
     const [whatsAppNumber, setWhatsAppNumber] = useState("");
     
+    //handle password with specil conduction
     const handlePasswordValidation = (value:string)=>{
       const password = value;
       const passwordSpecialCharecter = /(?=.*[!@#$&*])/;
@@ -73,6 +73,7 @@ export default function SignUpscreen() {
       }
     };
 
+    //when the pass word match to the userinfo.password means user password otherwise show password dont match
     const handleConfirmPasswordValidation = (value: string) => {
         setConfirmPassword(value);
         if (value !== userInfo.password) {
@@ -87,6 +88,8 @@ export default function SignUpscreen() {
             });
         }
     };
+
+    //whatsapp number validate only when +91 has 10 numbers in further I add all numbers
     const handleWhatsAppNumberValidation = (value:string) => {
         const numericValue = value.replace(/[^0-9]/g, "");
         setWhatsAppNumber(numericValue);
@@ -97,20 +100,25 @@ export default function SignUpscreen() {
             setError({ ...error, whatsAppNumber: "" });
         }
     };
+
+    //safe email 
     const isEmailValid = (email: string) => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       return emailRegex.test(email);
     };
+
+    // validate names when the are grater then 0
     const areNamesValid = () => {
         return userName.firstName.trim().length > 0 && userName.lastName.trim().length > 0;
       };
       
 
-  const isFormValid = isEmailValid(userInfo.email) && !error.password && areNamesValid() && confirmPassword === userInfo.password && (!error.whatsAppNumber && whatsAppNumber.length > 0);  ;
+    //fromvalidate logic 
+    const isFormValid = isEmailValid(userInfo.email) && !error.password && areNamesValid() && confirmPassword === userInfo.password && (!error.whatsAppNumber && whatsAppNumber.length > 0);
 
-
-    const handleSignIn = ()=>{
-   //
+    
+    const handleNext = ()=>{
+   
     }
 
 
@@ -123,17 +131,19 @@ export default function SignUpscreen() {
         showsHorizontalScrollIndicator={false}
         >
         <View style={styles.container}>
-
+        {/* starting banner */}
         <View style={styles.teams}>
           <Image style={styles.teamsImage} source={require("@/assets/sign-in/teamsLogo.png")} resizeMode="contain"/>
           <Text style={[styles.teamsText,{fontFamily:"Raleway_700Bold"}]}>Zapplo Teams</Text>
         </View>
 
+        {/* middle banner */}
         <View style={{display:"flex",alignItems:"center",justifyContent:"center",gap:12}}>
             <Text style={{color:"white",fontFamily:"Raleway_700Bold",fontSize:21}}>Let’s Get Started</Text>
             <Text style={{color:"white",fontWeight:"200",fontSize:12}}>Let's get started by filling out the form below.</Text>
         </View>
 
+        {/* first name */}
         <View style={styles.input}>
           <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>First Name</Text>
           <TextInput 
@@ -144,6 +154,7 @@ export default function SignUpscreen() {
           ></TextInput>
         </View>
 
+        {/* last name */}
         <View style={styles.input}>
           <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Last Name</Text>
           <TextInput 
@@ -154,8 +165,9 @@ export default function SignUpscreen() {
           ></TextInput>
         </View>
         
+        {/* drop down numbers and phone numbers */}
         <View style={{width:"100%",gap:9,justifyContent:"center", display:"flex",alignItems:"center",flexDirection:"row"}}>
-
+            {/* number DropDown  */}
             <Dropdown
                 style={styles.dropdown}
                 placeholderStyle={styles.placeholderStyle}
@@ -169,7 +181,7 @@ export default function SignUpscreen() {
                 valueField="value"
                 placeholder="Select item"
                 searchPlaceholder="Search..."
-                value={numberValue} // Set the initial value here
+                value={numberValue}
                 onChange={(item: any) => {
                     setNumberValue(item.value);
                 }}
@@ -185,6 +197,7 @@ export default function SignUpscreen() {
                 }}    
             />
 
+            {/* numbers */}
             <View style={styles.inputNum}>
             <Text style={[styles.baseName, { fontFamily: "Nunito_400Regular" }]}>
                 WhatsApp Number
@@ -194,13 +207,13 @@ export default function SignUpscreen() {
                 value={whatsAppNumber}
                 onChangeText={handleWhatsAppNumberValidation}
                 placeholder="7863983914"
-                keyboardType="numeric" // Numeric keypad
-                maxLength={10} // Limit to 10 digits
+                keyboardType="numeric" 
+                maxLength={10}
             />
             </View>
         </View>
 
-
+        {/* mail put */}
         <View style={styles.input}>
           <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Email Address</Text>
           <TextInput 
@@ -211,6 +224,7 @@ export default function SignUpscreen() {
           ></TextInput>
         </View>
 
+        {/* password put */}
         <View style={styles.input}>
           <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Password</Text>
           <TextInput 
@@ -237,6 +251,8 @@ export default function SignUpscreen() {
         
         </View>
 
+        {/* when password error occurs then show red color */}
+
         {
             error.password && (
               <View style={styles.errorPassword}>
@@ -248,7 +264,8 @@ export default function SignUpscreen() {
               </View>
             )
           }
-
+        
+        {/* confirm password */}
         <View style={styles.input}>
           <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Confirm Password</Text>
           <TextInput 
@@ -274,6 +291,8 @@ export default function SignUpscreen() {
           </TouchableOpacity>
         
         </View>
+
+        {/* when confirm password occurs  */}
         {error.confirmPassword && (
                         <View style={styles.errorPassword}>
                             <Entypo name="cross" size={18} color={"red"} />
@@ -284,16 +303,16 @@ export default function SignUpscreen() {
                     )}
 
 
-
-
+        {/* button next */}
           <TouchableOpacity
            style={[styles.buttonContainer , {backgroundColor: isFormValid ? "#815BF5" : "#37384B"}]}
-           onPress={handleSignIn}
+           onPress={()=> router.push("/(routes)/signUpTwo" as any)}
            >
 
             {
               buttonSpinner ? (
                   <ActivityIndicator size="small" color={"white"}/>
+
                 ) : (
                   <Text style={{color:"white",textAlign:"center",fontSize:13,fontFamily:"Railway_700Bold"}}>
                     Next
@@ -302,13 +321,13 @@ export default function SignUpscreen() {
             }
            </TouchableOpacity>
 
-
+            {/* go to the login page */}
             <View style={{display:"flex",flexDirection:"row", gap:2, justifyContent:"flex-end",marginTop:40,alignItems:"center"}}>
               <Text style={{color:"white" , fontWeight:200, fontSize:12}}>Already a </Text>
               <GradientText text="Zapllonian"/>
               <Text style={{color:"white", fontSize:12}}>? </Text>
               <TouchableOpacity onPress={()=> router.push("/(routes)/login" as any)}>
-                <Text style={{color:"white"}}> LogIn Here</Text>
+              <Text style={{color:"white"}}>Log In Here</Text>
               </TouchableOpacity>
             </View>
 
@@ -326,12 +345,7 @@ const styles = StyleSheet.create({
     height:"100%",
     
   },
-  signInImage:{
-    height:84,
-    width:"55%",
-    marginTop:49,
-    marginBottom:65
-  },
+
   teams:{
     display:"flex",
     flexDirection:"row",
@@ -416,13 +430,7 @@ const styles = StyleSheet.create({
     justifyContent:"center"
 
   },
-  terms:{
 
-  },
-  checkBox:{
-    height:100,
-    marginBottom:30
-  },
 
 
     dropdown: {
@@ -436,10 +444,7 @@ const styles = StyleSheet.create({
         height:52
         
     },
-    icon: {
-      marginRight: 5,
-      color:"white"
-    },
+
     placeholderStyle: {
       fontSize: 16,
     },
