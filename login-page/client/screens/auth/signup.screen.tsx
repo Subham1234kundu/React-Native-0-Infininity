@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View,Image, SafeAreaView, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
+import { ScrollView, StyleSheet, Text, View,Image, SafeAreaView, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
 import React, { useState } from "react";
 import { Entypo,Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -125,215 +125,226 @@ export default function SignUpscreen() {
 
   return (
         <SafeAreaView style={{backgroundColor:"#05071E",height:"100%"}}>
-        <ScrollView 
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}
-        >
-        <View style={styles.container}>
-        {/* starting banner */}
-        <View style={styles.teams}>
-          <Image style={styles.teamsImage} source={require("@/assets/sign-in/teamsLogo.png")} resizeMode="contain"/>
-          <Text style={[styles.teamsText,{fontFamily:"Raleway_700Bold"}]}>Zapplo Teams</Text>
-        </View>
-
-        {/* middle banner */}
-        <View style={{display:"flex",alignItems:"center",justifyContent:"center",gap:12}}>
-            <Text style={{color:"white",fontFamily:"Raleway_700Bold",fontSize:21}}>Let’s Get Started</Text>
-            <Text style={{color:"white",fontWeight:"200",fontSize:12}}>Let's get started by filling out the form below.</Text>
-        </View>
-
-        {/* first name */}
-        <View style={styles.input}>
-          <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>First Name</Text>
-          <TextInput 
-          style={[styles.inputSome]}
-          value={userName.firstName}
-          onChangeText={(value)=>setUserName({...userName,firstName:value})}
-          placeholder="First Name"
-          ></TextInput>
-        </View>
-
-        {/* last name */}
-        <View style={styles.input}>
-          <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Last Name</Text>
-          <TextInput 
-          style={[styles.inputSome]}
-          value={userName.lastName}
-          onChangeText={(value)=>setUserName({...userName,lastName:value})}
-          placeholder="Last Name"
-          ></TextInput>
-        </View>
-        
-        {/* drop down numbers and phone numbers */}
-        <View style={{width:"100%",gap:9,justifyContent:"center", display:"flex",alignItems:"center",flexDirection:"row"}}>
-            {/* number DropDown  */}
-            <Dropdown
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={data}
-                search
-                maxHeight={300}
-                labelField="label"
-                valueField="value"
-                placeholder="Select item"
-                searchPlaceholder="Search..."
-                value={numberValue}
-                onChange={(item: any) => {
-                    setNumberValue(item.value);
-                }}
-                renderLeftIcon={() => {
-                    const selectedItem = data.find((item) => item.value === numberValue);
-                    return (
-                        <Image
-                            source={selectedItem?.icon}
-                            style={{ width: 15, height: 20, marginRight: 5 }}
-                            resizeMode="contain"
-                        />
-                    );
-                }}    
-            />
-
-            {/* numbers */}
-            <View style={styles.inputNum}>
-            <Text style={[styles.baseName, { fontFamily: "Nunito_400Regular" }]}>
-                WhatsApp Number
-            </Text>
-            <TextInput 
-                style={[styles.inputSome]}
-                value={whatsAppNumber}
-                onChangeText={handleWhatsAppNumberValidation}
-                placeholder="7863983914"
-                keyboardType="numeric" 
-                maxLength={10}
-            />
+          <KeyboardAvoidingView
+                  behavior={Platform.OS === "ios" ? "padding" : "height"}
+                  style={{ flex: 1 }}
+              >
+            <ScrollView 
+            contentContainerStyle={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            >
+            <View style={styles.container}>
+            {/* starting banner */}
+            <View style={styles.teams}>
+              <Image style={styles.teamsImage} source={require("@/assets/sign-in/teamsLogo.png")} resizeMode="contain"/>
+              <Text style={[styles.teamsText,{fontFamily:"Raleway_700Bold"}]}>Zapplo Teams</Text>
             </View>
-        </View>
 
-        {/* mail put */}
-        <View style={styles.input}>
-          <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Email Address</Text>
-          <TextInput 
-          style={[styles.inputSome]}
-          value={userInfo.email}
-          onChangeText={(value)=>setUserInfo({...userInfo,email:value})}
-          placeholder="Email Address"
-          ></TextInput>
-        </View>
+            {/* middle banner */}
+            <View style={{display:"flex",alignItems:"center",justifyContent:"center",gap:12}}>
+                <Text style={{color:"white",fontFamily:"Raleway_700Bold",fontSize:21}}>Let’s Get Started</Text>
+                <Text style={{color:"white",fontWeight:"200",fontSize:12}}>Let's get started by filling out the form below.</Text>
+            </View>
 
-        {/* password put */}
-        <View style={styles.input}>
-          <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Password</Text>
-          <TextInput 
-          style={styles.inputSome}
-          keyboardType="default"
-          secureTextEntry={!isPasswordVisible}
-          defaultValue=""
-          onChangeText={handlePasswordValidation}
-          placeholder="**********"
-          ></TextInput>
+            {/* first name */}
+            <View style={styles.input}>
+              <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>First Name</Text>
+              <TextInput 
+              style={[styles.inputSome]}
+              value={userName.firstName}
+              onChangeText={(value)=>setUserName({...userName,firstName:value})}
+              placeholder="First Name"
+              placeholderTextColor="#787CA5"
+              ></TextInput>
+            </View>
 
-          <TouchableOpacity 
-          style={styles.visibleIcon}
-          onPress={()=>setIsPasswordVisible(!isPasswordVisible)}
-          >
-          {
-            isPasswordVisible ? (
-              <Ionicons  name="eye-off-outline" size={23} color={"#FFFFFF"}/>
-            ) : (
-              <Ionicons  name="eye-outline" size={23} color={"#FFFFFF"}/>
-            )
-          }
-          </TouchableOpacity>
-        
-        </View>
+            {/* last name */}
+            <View style={styles.input}>
+              <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Last Name</Text>
+              <TextInput 
+              style={[styles.inputSome]}
+              value={userName.lastName}
+              onChangeText={(value)=>setUserName({...userName,lastName:value})}
+              placeholder="Last Name"
+              placeholderTextColor="#787CA5"
+              ></TextInput>
+            </View>
+            
+            {/* drop down numbers and phone numbers */}
+            <View style={{width:"100%",gap:9,justifyContent:"center", display:"flex",alignItems:"center",flexDirection:"row"}}>
+                {/* number DropDown  */}
+                <Dropdown
+                    style={styles.dropdown}
+                    placeholderStyle={styles.placeholderStyle}
+                    selectedTextStyle={styles.selectedTextStyle}
+                    inputSearchStyle={styles.inputSearchStyle}
+                    iconStyle={styles.iconStyle}
+                    data={data}
+                    search
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder="Select item"
+                    searchPlaceholder="Search..."
+                    value={numberValue}
+                    onChange={(item: any) => {
+                        setNumberValue(item.value);
+                    }}
+                    renderLeftIcon={() => {
+                        const selectedItem = data.find((item) => item.value === numberValue);
+                        return (
+                            <Image
+                                source={selectedItem?.icon}
+                                style={{ width: 15, height: 20, marginRight: 5 }}
+                                resizeMode="contain"
+                            />
+                        );
+                    }}    
+                />
 
-        {/* when password error occurs then show red color */}
-
-        {
-            error.password && (
-              <View style={styles.errorPassword}>
-                <Entypo name="cross" size={18} color={"red"}/>
-                <Text style={{color:"red",fontSize:10}}>
-                  {error.password}
+                {/* numbers */}
+                <View style={styles.inputNum}>
+                <Text style={[styles.baseName, { fontFamily: "Nunito_400Regular" }]}>
+                    WhatsApp Number
                 </Text>
-                
-              </View>
-            )
-          }
-        
-        {/* confirm password */}
-        <View style={styles.input}>
-          <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Confirm Password</Text>
-          <TextInput 
-          style={styles.inputSome}
-          keyboardType="default"
-          secureTextEntry={!isPasswordVisible}
-          defaultValue=""
-          onChangeText={handleConfirmPasswordValidation}
-          placeholder="**********"
-          ></TextInput>
+                <TextInput 
+                    style={[styles.inputSome]}
+                    value={whatsAppNumber}
+                    onChangeText={handleWhatsAppNumberValidation}
+                    placeholder="7863983914"
+                    keyboardType="numeric" 
+                    placeholderTextColor="#787CA5"
+                    maxLength={10}
+                />
+                </View>
+            </View>
 
-          <TouchableOpacity 
-          style={styles.visibleIcon}
-          onPress={()=>setIsPasswordVisible(!isPasswordVisible)}
-          >
-          {
-            isPasswordVisible ? (
-              <Ionicons  name="eye-off-outline" size={23} color={"#FFFFFF"}/>
-            ) : (
-              <Ionicons  name="eye-outline" size={23} color={"#FFFFFF"}/>
-            )
-          }
-          </TouchableOpacity>
-        
-        </View>
+            {/* mail put */}
+            <View style={styles.input}>
+              <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Email Address</Text>
+              <TextInput 
+              style={[styles.inputSome]}
+              value={userInfo.email}
+              onChangeText={(value)=>setUserInfo({...userInfo,email:value})}
+              placeholder="Email Address"
+              placeholderTextColor="#787CA5"
+              ></TextInput>
+            </View>
 
-        {/* when confirm password occurs  */}
-        {error.confirmPassword && (
-                        <View style={styles.errorPassword}>
-                            <Entypo name="cross" size={18} color={"red"} />
-                            <Text style={{ color: "red", fontSize: 10 }}>
-                                {error.confirmPassword}
-                            </Text>
-                        </View>
-                    )}
+            {/* password put */}
+            <View style={styles.input}>
+              <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Password</Text>
+              <TextInput 
+              style={styles.inputSome}
+              keyboardType="default"
+              secureTextEntry={!isPasswordVisible}
+              defaultValue=""
+              onChangeText={handlePasswordValidation}
+              placeholderTextColor="#787CA5"
+              placeholder="**********"
+              ></TextInput>
 
+              <TouchableOpacity 
+              style={styles.visibleIcon}
+              onPress={()=>setIsPasswordVisible(!isPasswordVisible)}
+              >
+              {
+                isPasswordVisible ? (
+                  <Ionicons  name="eye-off-outline" size={23} color={"#FFFFFF"}/>
+                ) : (
+                  <Ionicons  name="eye-outline" size={23} color={"#FFFFFF"}/>
+                )
+              }
+              </TouchableOpacity>
+            
+            </View>
 
-        {/* button next */}
-          <TouchableOpacity
-           style={[styles.buttonContainer , {backgroundColor: isFormValid ? "#815BF5" : "#37384B"}]}
-           onPress={()=> router.push("/(routes)/signUpTwo" as any)}
-           >
+            {/* when password error occurs then show red color */}
 
             {
-              buttonSpinner ? (
-                  <ActivityIndicator size="small" color={"white"}/>
-
-                ) : (
-                  <Text style={{color:"white",textAlign:"center",fontSize:13,fontFamily:"Railway_700Bold"}}>
-                    Next
-                  </Text>
+                error.password && (
+                  <View style={styles.errorPassword}>
+                    <Entypo name="cross" size={18} color={"red"}/>
+                    <Text style={{color:"red",fontSize:10}}>
+                      {error.password}
+                    </Text>
+                    
+                  </View>
                 )
-            }
-           </TouchableOpacity>
+              }
+            
+            {/* confirm password */}
+            <View style={styles.input}>
+              <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Confirm Password</Text>
+              <TextInput 
+              style={styles.inputSome}
+              keyboardType="default"
+              secureTextEntry={!isPasswordVisible}
+              defaultValue=""
+              onChangeText={handleConfirmPasswordValidation}
+              placeholderTextColor="#787CA5"
+              placeholder="**********"
+              ></TextInput>
 
-            {/* go to the login page */}
-            <View style={{display:"flex",flexDirection:"row", gap:2, justifyContent:"flex-end",marginTop:40,alignItems:"center"}}>
-              <Text style={{color:"white" , fontWeight:200, fontSize:12}}>Already a </Text>
-              <GradientText text="Zapllonian"/>
-              <Text style={{color:"white", fontSize:12}}>? </Text>
-              <TouchableOpacity onPress={()=> router.push("/(routes)/login" as any)}>
-              <Text style={{color:"white"}}>Log In Here</Text>
+              <TouchableOpacity 
+              style={styles.visibleIcon}
+              onPress={()=>setIsPasswordVisible(!isPasswordVisible)}
+              >
+              {
+                isPasswordVisible ? (
+                  <Ionicons  name="eye-off-outline" size={23} color={"#FFFFFF"}/>
+                ) : (
+                  <Ionicons  name="eye-outline" size={23} color={"#FFFFFF"}/>
+                )
+              }
               </TouchableOpacity>
+            
             </View>
 
-        </View>
-        
-        </ScrollView>
+            {/* when confirm password occurs  */}
+            {error.confirmPassword && (
+                            <View style={styles.errorPassword}>
+                                <Entypo name="cross" size={18} color={"red"} />
+                                <Text style={{ color: "red", fontSize: 10 }}>
+                                    {error.confirmPassword}
+                                </Text>
+                            </View>
+                        )}
+
+
+            {/* button next */}
+              <TouchableOpacity
+              style={[styles.buttonContainer , {backgroundColor: isFormValid ? "#815BF5" : "#37384B"}]}
+              onPress={()=> router.push("/(routes)/signUpTwo" as any)}
+              >
+
+                {
+                  buttonSpinner ? (
+                      <ActivityIndicator size="small" color={"white"}/>
+
+                    ) : (
+                      <Text style={{color:"white",textAlign:"center",fontSize:13,fontFamily:"Railway_700Bold"}}>
+                        Next
+                      </Text>
+                    )
+                }
+              </TouchableOpacity>
+
+                {/* go to the login page */}
+                <View style={{display:"flex",flexDirection:"row", gap:2, justifyContent:"flex-end",marginTop:40,alignItems:"center"}}>
+                  <Text style={{color:"white" , fontWeight:200, fontSize:12}}>Already a </Text>
+                  <GradientText text="Zapllonian"/>
+                  <Text style={{color:"white", fontSize:12}}>? </Text>
+                  <TouchableOpacity onPress={()=> router.push("/(routes)/login" as any)}>
+                  <Text style={{color:"white"}}>Log In Here</Text>
+                  </TouchableOpacity>
+                </View>
+
+            </View>
+            
+            </ScrollView>
+          </KeyboardAvoidingView>
         </SafeAreaView>
   );
 };

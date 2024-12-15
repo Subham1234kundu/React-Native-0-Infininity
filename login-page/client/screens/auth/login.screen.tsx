@@ -1,4 +1,4 @@
-import { ScrollView, StyleSheet, Text, View,Image, SafeAreaView, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
+import { ScrollView, StyleSheet, Text, View,Image, SafeAreaView, TextInput, TouchableOpacity, ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
 import React, { useState } from "react";
 import { Entypo,Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
@@ -65,112 +65,120 @@ export default function Loginscreen() {
 
   return (
         <SafeAreaView style={{backgroundColor:"#05071E",height:"100%"}}>
-        <ScrollView 
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-        showsHorizontalScrollIndicator={false}>
-        <View style={styles.container}>
-        <Image style={styles.signInImage} source={require("@/assets/sign-in/sign_in.png")} resizeMode="contain"/>
+          <KeyboardAvoidingView
+                  behavior={Platform.OS === "ios" ? "padding" : "height"}
+                  style={{ flex: 1 }}
+              >          
+            <ScrollView 
+            contentContainerStyle={{ flexGrow: 1 }}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}>
+            <View style={styles.container}>
+            <Image style={styles.signInImage} source={require("@/assets/sign-in/sign_in.png")} resizeMode="contain"/>
 
-        <View style={styles.teams}>
-          <Image style={styles.teamsImage} source={require("@/assets/sign-in/teamsLogo.png")} resizeMode="contain"/>
-          <Text style={[styles.teamsText,{fontFamily:"Raleway_700Bold"}]}>Zapplo Teams</Text>
-        </View>
+            <View style={styles.teams}>
+              <Image style={styles.teamsImage} source={require("@/assets/sign-in/teamsLogo.png")} resizeMode="contain"/>
+              <Text style={[styles.teamsText,{fontFamily:"Raleway_700Bold"}]}>Zapplo Teams</Text>
+            </View>
 
-        <View style={styles.input}>
-          <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Email Address</Text>
-          <TextInput 
-          style={[styles.inputSome]}
-          value={userInfo.email}
-          onChangeText={(value)=>setUserInfo({...userInfo,email:value})}
-          placeholder="Email Address"
-          ></TextInput>
-        </View>
+            <View style={styles.input}>
+              <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Email Address</Text>
+              <TextInput 
+              style={[styles.inputSome]}
+              value={userInfo.email}
+              onChangeText={(value)=>setUserInfo({...userInfo,email:value})}
+              placeholder="Email Address"
+              placeholderTextColor="#787CA5"
+              ></TextInput>
+            </View>
 
-        <View style={styles.input}>
-          <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Password</Text>
-          <TextInput 
-          style={styles.inputSome}
-          keyboardType="default"
-          secureTextEntry={!isPasswordVisible}
-          defaultValue=""
-          onChangeText={handlePasswordValidation}
-          placeholder="**********"
-          ></TextInput>
+            <View style={styles.input}>
+              <Text style={[styles.baseName,{fontFamily:"Nunito_400Regular"}]}>Password</Text>
+              <TextInput 
+              style={styles.inputSome}
+              keyboardType="default"
+              secureTextEntry={!isPasswordVisible}
+              defaultValue=""
+              onChangeText={handlePasswordValidation}
+              placeholderTextColor="#787CA5"
+              placeholder="**********"
+              ></TextInput>
 
-          <TouchableOpacity 
-          style={styles.visibleIcon}
-          onPress={()=>setIsPasswordVisible(!isPasswordVisible)}
-          >
-          {
-            isPasswordVisible ? (
-              <Ionicons  name="eye-off-outline" size={23} color={"#FFFFFF"}/>
-            ) : (
-              <Ionicons  name="eye-outline" size={23} color={"#FFFFFF"}/>
-            )
-          }
-          </TouchableOpacity>
-        
-        </View>
-
-        <TouchableOpacity 
-        style={{alignSelf:"flex-end", marginRight:"5%",marginTop:7}}
-        onPress={()=>router.push("forgot-password" as any)}
-        >
-          <Text style={{color:"#FFFFFF",fontSize:10,fontWeight:200}}>Forgot password?</Text>
-        </TouchableOpacity>
-
-
-          {
-            error.password && (
-              <View style={styles.errorPassword}>
-                <Entypo name="cross" size={18} color={"red"}/>
-                <Text style={{color:"red",fontSize:10}}>
-                  {error.password}
-                </Text>
-                
-              </View>
-            )
-          }
-
-          <TouchableOpacity
-           style={[styles.buttonContainer , {backgroundColor: isFormValid ? "#815BF5" : "#37384B"}]}
-           onPress={handleSignIn}
-           >
-
-            {
-              buttonSpinner ? (
-                  <ActivityIndicator size="small" color={"white"}/>
+              <TouchableOpacity 
+              style={styles.visibleIcon}
+              onPress={()=>setIsPasswordVisible(!isPasswordVisible)}
+              >
+              {
+                isPasswordVisible ? (
+                  <Ionicons  name="eye-off-outline" size={23} color={"#FFFFFF"}/>
                 ) : (
-                  <Text style={{color:"white",textAlign:"center",fontSize:13,fontFamily:"Railway_700Bold"}}>
-                    Login
-                  </Text>
+                  <Ionicons  name="eye-outline" size={23} color={"#FFFFFF"}/>
                 )
-            }
-           </TouchableOpacity>
-
-            <View style={styles.terms}>
-              <CheckBox
-               text="By clicking continue, you agree to our Terms of Service and Privacy Policy."
-               isChecked = {isChecked}
-               onPress={()=>setIsChecked(!isChecked)}
-               containerStyle={styles.checkBox}
-              ></CheckBox>
-            </View>
-
-            <View style={{display:"flex",flexDirection:"row", gap:2, justifyContent:"flex-end",marginTop:40,alignItems:"center"}}>
-              <Text style={{color:"white" , fontWeight:200, fontSize:12}}>Not a</Text>
-              <GradientText text="Zapllonian"/>
-              <Text style={{color:"white", fontSize:12}}>? </Text>
-              <TouchableOpacity onPress={()=> router.push("/(routes)/signUp" as any)}>
-                <Text style={{color:"white"}}>Register Here</Text>
+              }
               </TouchableOpacity>
+            
             </View>
 
-        </View>
-        
-        </ScrollView>
+            <TouchableOpacity 
+            style={{alignSelf:"flex-end", marginRight:"5%",marginTop:7}}
+            onPress={()=>router.push("forgot-password" as any)}
+            >
+              <Text style={{color:"#FFFFFF",fontSize:10,fontWeight:200}}>Forgot password?</Text>
+            </TouchableOpacity>
+
+
+              {
+                error.password && (
+                  <View style={styles.errorPassword}>
+                    <Entypo name="cross" size={18} color={"red"}/>
+                    <Text style={{color:"red",fontSize:10}}>
+                      {error.password}
+                    </Text>
+                    
+                  </View>
+                )
+              }
+
+              <TouchableOpacity
+              style={[styles.buttonContainer , {backgroundColor: isFormValid ? "#815BF5" : "#37384B"}]}
+              onPress={handleSignIn}
+              >
+
+                {
+                  buttonSpinner ? (
+                      <ActivityIndicator size="small" color={"white"}/>
+                    ) : (
+                      <Text style={{color:"white",textAlign:"center",fontSize:13,fontFamily:"Railway_700Bold"}}>
+                        Login
+                      </Text>
+                    )
+                }
+              </TouchableOpacity>
+
+                <View style={styles.terms}>
+                  <CheckBox
+                  text="By clicking continue, you agree to our Terms of Service and Privacy Policy."
+                  isChecked = {isChecked}
+                  onPress={()=>setIsChecked(!isChecked)}
+                  containerStyle={styles.checkBox}
+                  ></CheckBox>
+                </View>
+
+                <View style={{display:"flex",flexDirection:"row", gap:2, justifyContent:"flex-end",marginTop:40,alignItems:"center"}}>
+                  <Text style={{color:"white" , fontWeight:200, fontSize:12}}>Not a</Text>
+                  <GradientText text="Zapllonian"/>
+                  <Text style={{color:"white", fontSize:12}}>? </Text>
+                  <TouchableOpacity onPress={()=> router.push("/(routes)/signUp" as any)}>
+                    <Text style={{color:"white"}}>Register Here</Text>
+                  </TouchableOpacity>
+                </View>
+
+            </View>
+            
+            </ScrollView>
+          </KeyboardAvoidingView> 
         </SafeAreaView>
+        
   );
 };
 

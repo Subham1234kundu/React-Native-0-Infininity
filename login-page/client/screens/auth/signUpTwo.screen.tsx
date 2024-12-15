@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, Image, SafeAreaView, TextInput, TouchableOpacity, ActivityIndicator, FlatList,ScrollView } from "react-native";
+import { StyleSheet, Text, View, Image, SafeAreaView, TextInput, TouchableOpacity, ActivityIndicator, FlatList,ScrollView, KeyboardAvoidingView, Platform } from "react-native";
 import { Dropdown } from 'react-native-element-dropdown';
 import { router } from "expo-router";
 import { GradientText } from "@/components/GradientText";
@@ -87,157 +87,164 @@ export default function SignUpTwoScreen() {
 
     return (
         <SafeAreaView style={{ backgroundColor: "#05071E", height: "100%" }}>
-            <ScrollView
-            contentContainerStyle={{ flexGrow: 1 }}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            >
-            <View style={styles.container}>
-                {/* starting banner */}
-                <View style={styles.teams}>
-                    <Image style={styles.teamsImage} source={require("@/assets/sign-in/teamsLogo.png")} resizeMode="contain" />
-                    <Text style={[styles.teamsText, { fontFamily: "Raleway_700Bold" }]}>Zapplo Teams</Text>
-                </View>
-
-                {/* middle banner */}
-                <View style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
-                    <Text style={{ color: "white", fontFamily: "Raleway_700Bold", fontSize: 21 }}>Create Your Workspace</Text>
-                    <Text style={{ color: "white", fontWeight: "200", fontSize: 12 }}>Let's get started by filling out the form below.</Text>
-                </View>
-
-                {/* Company Name */}
-                <View style={styles.input}>
-                    <Text style={[styles.baseName, { fontFamily: "Nunito_400Regular" }]}>Company Name</Text>
-                    <TextInput
-                        style={[styles.inputSome]}
-                        value={companyName}
-                        onChangeText={(value) => setCompanyName(value)}
-                        placeholder="Company Name"
-                    ></TextInput>
-                </View>
-
-                {/* drop down Business Industry names */}
-                <View style={styles.input}>
-                    <Text style={[styles.baseName, { fontFamily: "Nunito_400Regular" }]}>Business Industry</Text>
-                    <Dropdown
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        iconStyle={styles.iconStyle}
-                        data={industryData}
-                        search
-                        maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder="Business Industry"
-                        searchPlaceholder="Search..."
-                        value={selectIndustry}
-                        onChange={(item: any) => {
-                            setSelectIndustry(item.value);
-                        }}
-                    />
-                </View>
-
-                {/* drop down team size names */}
-                <View style={styles.input}>
-                    <Text style={[styles.baseName, { fontFamily: "Nunito_400Regular" }]}>Team Size</Text>
-                    <Dropdown
-                        style={styles.dropdown}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        inputSearchStyle={styles.inputSearchStyle}
-                        iconStyle={styles.iconStyle}
-                        data={teamsData}
-                        search
-                        maxHeight={300}
-                        labelField="label"
-                        valueField="value"
-                        placeholder="Team Size"
-                        searchPlaceholder="Search..."
-                        value={teamSize}
-                        onChange={(item: any) => {
-                            setTeamSize(item.value);
-                        }}
-                    />
-                </View>
-
-                {/* Description */}
-                <View style={[styles.input, { height: 100, justifyContent: "flex-start", alignItems: "flex-start" }]}>
-                    <TextInput
-                        multiline
-                        style={[styles.inputSome]}
-                        value={description}
-                        onChangeText={(value) => setDescription(value)}
-                        placeholder="Description"
-                    ></TextInput>
-                </View>
-
-                <View style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12,width:"90%" }}>
-                <Text style={{ color: "white", fontWeight: "200", fontSize: 14, alignSelf: "center", padding: 4 }}>Select the categories that are relevant to your business</Text>
-                </View>
-
-
-             {/* Render buttons without scrolling */}
-                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', gap: 1,width:"90%",marginTop:12 }}>
-                        {selectedItem.map((item) => (
-                            <TouchableOpacity
-                                key={item.id}
-                                style={{
-                                    width: "26%",
-                                    height: 40,
-                                    margin: 5,
-                                    borderRadius: 20,
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    backgroundColor: item.selected ? "#815BF5" : "#37384B",
-                                }}
-                                onPress={() => onSelect(item)}
-                            >
-                                <Text style={{ color: "white", fontSize: 12 }}>{item.item}</Text>
-                            </TouchableOpacity>
-                        ))}
+          <KeyboardAvoidingView
+                  behavior={Platform.OS === "ios" ? "padding" : "height"}
+                  style={{ flex: 1 }}
+              >           
+                <ScrollView
+                contentContainerStyle={{ flexGrow: 1 }}
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
+                >
+                <View style={styles.container}>
+                    {/* starting banner */}
+                    <View style={styles.teams}>
+                        <Image style={styles.teamsImage} source={require("@/assets/sign-in/teamsLogo.png")} resizeMode="contain" />
+                        <Text style={[styles.teamsText, { fontFamily: "Raleway_700Bold" }]}>Zapplo Teams</Text>
                     </View>
 
-                    <View style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12,width:"90%",marginTop:6 }}>
-                    <Text style={{ color: "white", fontWeight: "200", fontSize: 11,alignSelf:"center" }}>Don't worry you can add more later in the Settings
-                    panel</Text>
+                    {/* middle banner */}
+                    <View style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12 }}>
+                        <Text style={{ color: "white", fontFamily: "Raleway_700Bold", fontSize: 21 }}>Create Your Workspace</Text>
+                        <Text style={{ color: "white", fontWeight: "200", fontSize: 12 }}>Let's get started by filling out the form below.</Text>
                     </View>
 
-                
-            {/* button sign up */}
-            <TouchableOpacity
-                style={[styles.buttonContainer, { backgroundColor: isFormValid ? "#815BF5" : "#37384B" }]}
-                onPress={() => router.push("/(routes)/signUpTwo" as any)}
-            >
-                {
-                    buttonSpinner ? (
-                        <ActivityIndicator size="small" color={"white"} />
-                    ) : (
-                        <Text style={{ color: "white", textAlign: "center", fontSize: 13, fontFamily: "Railway_700Bold" }}>
-                            Sign Up
-                        </Text>
-                    )
-                }
-            </TouchableOpacity>
+                    {/* Company Name */}
+                    <View style={styles.input}>
+                        <Text style={[styles.baseName, { fontFamily: "Nunito_400Regular" }]}>Company Name</Text>
+                        <TextInput
+                            style={[styles.inputSome]}
+                            value={companyName}
+                            onChangeText={(value) => setCompanyName(value)}
+                            placeholder="Company Name"
+                            placeholderTextColor="#787CA5"
+                        ></TextInput>
+                    </View>
+
+                    {/* drop down Business Industry names */}
+                    <View style={styles.input}>
+                        <Text style={[styles.baseName, { fontFamily: "Nunito_400Regular" }]}>Business Industry</Text>
+                        <Dropdown
+                            style={styles.dropdown}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={industryData}
+                            search
+                            maxHeight={300}
+                            labelField="label"
+                            valueField="value"
+                            placeholder="Business Industry"
+                            searchPlaceholder="Search..."
+                            value={selectIndustry}
+                            onChange={(item: any) => {
+                                setSelectIndustry(item.value);
+                            }}
+                        />
+                    </View>
+
+                    {/* drop down team size names */}
+                    <View style={styles.input}>
+                        <Text style={[styles.baseName, { fontFamily: "Nunito_400Regular" }]}>Team Size</Text>
+                        <Dropdown
+                            style={styles.dropdown}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={teamsData}
+                            search
+                            maxHeight={300}
+                            labelField="label"
+                            valueField="value"
+                            placeholder="Team Size"
+                            searchPlaceholder="Search..."
+                            value={teamSize}
+                            onChange={(item: any) => {
+                                setTeamSize(item.value);
+                            }}
+                        />
+                    </View>
+
+                    {/* Description */}
+                    <View style={[styles.input, { height: 100, justifyContent: "flex-start", alignItems: "flex-start" }]}>
+                        <TextInput
+                            multiline
+                            style={[styles.inputSome]}
+                            value={description}
+                            onChangeText={(value) => setDescription(value)}
+                            placeholder="Description"
+                            placeholderTextColor="#787CA5"
+                        ></TextInput>
+                    </View>
+
+                    <View style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12,width:"90%" }}>
+                    <Text style={{ color: "white", fontWeight: "200", fontSize: 14, alignSelf: "center", padding: 4 }}>Select the categories that are relevant to your business</Text>
+                    </View>
 
 
+                {/* Render buttons without scrolling */}
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start', gap: 1,width:"90%",marginTop:12 }}>
+                            {selectedItem.map((item) => (
+                                <TouchableOpacity
+                                    key={item.id}
+                                    style={{
+                                        width: "26%",
+                                        height: 40,
+                                        margin: 5,
+                                        borderRadius: 20,
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        backgroundColor: item.selected ? "#815BF5" : "#37384B",
+                                    }}
+                                    onPress={() => onSelect(item)}
+                                >
+                                    <Text style={{ color: "white", fontSize: 12 }}>{item.item}</Text>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
 
-            {/* go to the login page */}
-            <View style={{ display: "flex", flexDirection: "row", gap: 2, justifyContent: "flex-end", marginTop: 40, alignItems: "center" }}>
-                <Text style={{ color: "white", fontWeight: 200, fontSize: 12 }}>Already a </Text>
-                <GradientText text="Zapllonian" />
-                <Text style={{ color: "white", fontSize: 12 }}>? </Text>
-                <TouchableOpacity onPress={() => router.push("/(routes)/login" as any)}>
-                    <Text style={{ color: "white" }}>Log In Here</Text>
+                        <View style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12,width:"90%",marginTop:6 }}>
+                        <Text style={{ color: "white", fontWeight: "200", fontSize: 11,alignSelf:"center" }}>Don't worry you can add more later in the Settings
+                        panel</Text>
+                        </View>
+
+                    
+                {/* button sign up */}
+                <TouchableOpacity
+                    style={[styles.buttonContainer, { backgroundColor: isFormValid ? "#815BF5" : "#37384B" }]}
+                    onPress={() => router.push("/(routes)/signUpTwo" as any)}
+                >
+                    {
+                        buttonSpinner ? (
+                            <ActivityIndicator size="small" color={"white"} />
+                        ) : (
+                            <Text style={{ color: "white", textAlign: "center", fontSize: 13, fontFamily: "Railway_700Bold" }}>
+                                Sign Up
+                            </Text>
+                        )
+                    }
                 </TouchableOpacity>
-            </View>
-            
-            </View>
 
 
 
-            </ScrollView>
+                {/* go to the login page */}
+                <View style={{ display: "flex", flexDirection: "row", gap: 2, justifyContent: "flex-end", marginTop: 40, alignItems: "center",paddingBottom:40 }}>
+                    <Text style={{ color: "white", fontWeight: 200, fontSize: 12 }}>Already a </Text>
+                    <GradientText text="Zapllonian" />
+                    <Text style={{ color: "white", fontSize: 12 }}>? </Text>
+                    <TouchableOpacity onPress={() => router.push("/(routes)/login" as any)}>
+                        <Text style={{ color: "white" }}>Log In Here</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                </View>
+
+
+
+                </ScrollView>
+            </KeyboardAvoidingView> 
 
         </SafeAreaView>
     );
